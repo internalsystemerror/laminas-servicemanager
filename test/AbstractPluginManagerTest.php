@@ -20,7 +20,6 @@ use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use stdClass;
 
-use function get_class;
 use function restore_error_handler;
 use function set_error_handler;
 
@@ -188,7 +187,7 @@ final class AbstractPluginManagerTest extends TestCase
     {
         $pluginManager = $this->createContainer();
         $this->expectException(ServiceNotFoundException::class);
-        $this->expectExceptionMessage(get_class($pluginManager));
+        $this->expectExceptionMessage($pluginManager::class);
         $pluginManager->get('Some\Unknown\Service');
     }
 
@@ -266,10 +265,9 @@ final class AbstractPluginManagerTest extends TestCase
 
     /**
      * @group migration
-     * @param mixed $arg
      * @dataProvider invalidConstructorArguments
      */
-    public function testPassingNonContainerNonConfigNonNullFirstConstructorArgumentRaisesException($arg): void
+    public function testPassingNonContainerNonConfigNonNullFirstConstructorArgumentRaisesException(mixed $arg): void
     {
         $this->expectException(InvalidArgumentException::class);
         new TestAsset\LenientPluginManager($arg);

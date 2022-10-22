@@ -24,7 +24,6 @@ use function array_intersect;
 use function array_key_exists;
 use function array_keys;
 use function class_exists;
-use function get_class;
 use function gettype;
 use function in_array;
 use function is_callable;
@@ -158,7 +157,6 @@ class ServiceManager implements ServiceLocatorInterface
      * See {@see \Laminas\ServiceManager\ServiceManager::configure()} for details
      * on what $config accepts.
      *
-     * @param array $config
      * @psalm-param ServiceManagerConfiguration $config
      */
     public function __construct(array $config = [])
@@ -286,7 +284,6 @@ class ServiceManager implements ServiceLocatorInterface
     }
 
     /**
-     * @param  array $config
      * @psalm-param ServiceManagerConfiguration $config
      * @return self
      * @throws ContainerModificationsNotAllowedException If the allow
@@ -972,7 +969,7 @@ class ServiceManager implements ServiceLocatorInterface
         }
         throw new ServiceNotCreatedException(sprintf(
             'A non-callable delegator, "%s", was provided; expected a callable or instance of "%s"',
-            is_object($delegatorFactory) ? get_class($delegatorFactory) : gettype($delegatorFactory),
+            is_object($delegatorFactory) ? $delegatorFactory::class : gettype($delegatorFactory),
             DelegatorFactoryInterface::class
         ));
     }
